@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    //----------------------------- DialogAnimation ------------------------------------------------
+
+    <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/slide_up</item>
+        <item name="android:windowExitAnimation">@anim/slide_down</item>
+    </style>
+
+
+    // --------------------------------- ViewPager -------------------------
+
+
+    <style name="ViewPager">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layoutDirection">locale</item>
+        <item name="android:textDirection">locale</item>
+
+    </style>
+
+</resources>
