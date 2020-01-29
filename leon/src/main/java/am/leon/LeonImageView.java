@@ -27,6 +27,7 @@ public class LeonImageView extends TouchImageView {
         this(context, null);
     }
 
+
     public LeonImageView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
