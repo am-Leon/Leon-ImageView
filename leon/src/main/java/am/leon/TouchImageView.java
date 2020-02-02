@@ -148,7 +148,7 @@ class TouchImageView extends AppCompatImageView {
         final TypedArray attributes = context.getTheme().obtainStyledAttributes(attrs, R.styleable.TouchImageView, defStyleAttr, 0);
         try {
             if (!isInEditMode()) {
-                setZoomEnabled(attributes.getBoolean(R.styleable.TouchImageView_zoom_enabled, true));
+                setZoomEnabled(attributes.getBoolean(R.styleable.TouchImageView_zoom_enabled, false));
             }
         } finally {
             // release the TypedArray so that it can be reused.

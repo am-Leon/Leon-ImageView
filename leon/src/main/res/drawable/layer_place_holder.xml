@@ -2,7 +2,11 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@android:id/progress"
-        android:gravity="center">
+        android:bottom="104dp"
+        android:gravity="center"
+        android:left="104dp"
+        android:right="104dp"
+        android:top="104dp">
         <animated-rotate
             android:drawable="@drawable/ic_loader"
             android:fromDegrees="0"
