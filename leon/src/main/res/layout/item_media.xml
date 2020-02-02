@@ -10,6 +10,7 @@
         android:id="@+id/image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_gravity="center"
         tools:src="@tools:sample/avatars" />
 
     <androidx.appcompat.widget.AppCompatImageView
@@ -17,6 +18,7 @@
         android:layout_width="54dp"
         android:layout_height="54dp"
         android:layout_gravity="center"
-        android:src="@drawable/ic_play_colored" />
+        android:src="@drawable/ic_play_colored"
+        android:visibility="gone" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

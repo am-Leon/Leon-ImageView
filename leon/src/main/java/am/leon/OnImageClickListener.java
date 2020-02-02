@@ -5,29 +5,33 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 class OnImageClickListener implements View.OnClickListener, FullScreenPhotoFragment.FullScreenStatus {
 
     private View view;
-    private Media media;
+    private String media;
     private Context context;
     private String appLanguage;
     private int currentPosition;
-    private List<Media> mediaList;
+    private List<String> mediaList;
 
 
     OnImageClickListener(Context context) {
         this.context = context;
+        this.mediaList = new ArrayList<>();
     }
 
 
-    void setMedia(Media media) {
+    void setMedia(String media) {
+        this.mediaList.clear();
         this.media = media;
     }
 
 
-    void setMedia(List<Media> mediaList, int currentPosition, String appLanguage) {
+    void setMedia(List<String> mediaList, int currentPosition, String appLanguage) {
+        this.media = null;
         this.mediaList = mediaList;
         this.currentPosition = currentPosition;
         this.appLanguage = appLanguage;

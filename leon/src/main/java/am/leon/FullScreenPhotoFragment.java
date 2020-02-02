@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +26,7 @@ public class FullScreenPhotoFragment extends SwipeDialogFragment {
     private ViewPager viewpager;
     private FullScreenImageAdapter adapter;
     private FullScreenStatus fullScreenStatus;
-    private List<Media> mediaList = new ArrayList<>();
+    private List<String> mediaList = new ArrayList<>();
     private static final String MEDIA_TAG = "media_tag";
     private static final String APP_LANGUAGE = "appLanguage";
     private static final String MEDIA_LIST_TAG = "mediaList_tag";
@@ -46,20 +45,20 @@ public class FullScreenPhotoFragment extends SwipeDialogFragment {
     }
 
 
-    public static FullScreenPhotoFragment getInstance(Media media, FullScreenStatus fullScreenStatus) {
+    static FullScreenPhotoFragment getInstance(String media, FullScreenStatus fullScreenStatus) {
         FullScreenPhotoFragment sheet = new FullScreenPhotoFragment();
         Bundle bundle = new Bundle();
-        bundle.putParcelable(MEDIA_TAG, media);
+        bundle.putString(MEDIA_TAG, media);
         sheet.fullScreenStatus = fullScreenStatus;
         sheet.setArguments(bundle);
         return sheet;
     }
 
 
-    public static FullScreenPhotoFragment getInstance(List<Media> mediaList, int currentPosition, String appLanguage, FullScreenStatus fullScreenStatus) {
+    static FullScreenPhotoFragment getInstance(List<String> mediaList, int currentPosition, String appLanguage, FullScreenStatus fullScreenStatus) {
         FullScreenPhotoFragment sheet = new FullScreenPhotoFragment();
         Bundle bundle = new Bundle();
-        bundle.putParcelableArrayList(MEDIA_LIST_TAG, (ArrayList<? extends Parcelable>) mediaList);
+        bundle.putStringArrayList(MEDIA_LIST_TAG, (ArrayList<String>) mediaList);
         bundle.putInt(MEDIA_CURRENT_POSITION, currentPosition);
         bundle.putString(APP_LANGUAGE, appLanguage);
         sheet.fullScreenStatus = fullScreenStatus;
@@ -72,13 +71,13 @@ public class FullScreenPhotoFragment extends SwipeDialogFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            if (getArguments().getParcelableArrayList(MEDIA_LIST_TAG) != null) {
-                mediaList = getArguments().getParcelableArrayList(MEDIA_LIST_TAG);
+            if (getArguments().getStringArrayList(MEDIA_LIST_TAG) != null) {
+                mediaList = getArguments().getStringArrayList(MEDIA_LIST_TAG);
                 position = getArguments().getInt(MEDIA_CURRENT_POSITION, 0);
                 appLanguage = getArguments().getString(APP_LANGUAGE);
 
-            } else if (getArguments().getParcelable(MEDIA_TAG) != null)
-                mediaList.add(getArguments().getParcelable(MEDIA_TAG));
+            } else if (getArguments().getString(MEDIA_TAG) != null)
+                mediaList.add(getArguments().getString(MEDIA_TAG));
         }
     }
 

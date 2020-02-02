@@ -16,7 +16,7 @@ class FullScreenImageAdapter extends PagerAdapter implements View.OnClickListene
 
     private View view;
     private Context context;
-    private List<Media> list;
+    private List<String> list;
     private String appLanguage;
     private int currentPosition;
     private AppCompatImageView ic_video;
@@ -30,7 +30,7 @@ class FullScreenImageAdapter extends PagerAdapter implements View.OnClickListene
     }
 
 
-    void setMediaList(List<Media> list, int currentPosition) {
+    void setMediaList(List<String> list, int currentPosition) {
         this.list = list;
         this.currentPosition = currentPosition;
         notifyDataSetChanged();
@@ -56,9 +56,10 @@ class FullScreenImageAdapter extends PagerAdapter implements View.OnClickListene
         view = inflater != null ? inflater.inflate(R.layout.item_media, container, false) : null;
         viewInit();
 
-        Media media = list.get(position);
+        String media = list.get(position);
+        imageView.executePicasso(media, null);
 
-        if (media.getType().equals(Media.TYPE_VIDEO)) {
+        if (media != null && media.contains(Utils.YouTube_Thumb)) {
             ic_video.setVisibility(View.VISIBLE);
             imageView.setOnClickListener(this);
         } else {
@@ -66,8 +67,6 @@ class FullScreenImageAdapter extends PagerAdapter implements View.OnClickListene
             imageView.setOnClickListener(null);
             imageView.setZoomEnabled(true);
         }
-
-        imageView.loadImage(media);
 
         container.addView(view);
         return view;
@@ -87,9 +86,9 @@ class FullScreenImageAdapter extends PagerAdapter implements View.OnClickListene
 
     @Override
     public void onClick(View view) {
-        Media media = list.get(currentPosition);
+        String media = list.get(currentPosition);
 
-        Utils.youtubePlay(context, media.getPath().substring(media.getPath().indexOf("=") + 1));
+        Utils.youtubePlay(context, media.substring(media.indexOf("=") + 1));
     }
 
 

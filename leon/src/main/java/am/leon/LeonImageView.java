@@ -1,6 +1,7 @@
 package am.leon;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -10,17 +11,15 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
-import static am.leon.Utils.DEFAULT_IMAGE_RESOURCE;
-import static am.leon.Utils.PLACE_HOLDER_IMAGE_RESOURCE;
 import static am.leon.Utils.YouTube_Thumb;
 
 public class LeonImageView extends TouchImageView {
 
-    private OnImageClickListener onImageClickListener;  // to setCustom OnClickListener
-    private int defaultImageRes = DEFAULT_IMAGE_RESOURCE; // to get default image res
-    private int placeHolderImageRes = PLACE_HOLDER_IMAGE_RESOURCE; // to get placeHolder image res
+    private OnImageClickListener onImageClickListener;
+    private int reloadImageRes, defaultImageRes, videoPlayImageRes, placeHolderImageRes;
 
 
     public LeonImageView(Context context) {
@@ -32,11 +31,36 @@ public class LeonImageView extends TouchImageView {
         this(context, attrs, 0);
     }
 
+
     public LeonImageView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        viewInit(context);
+        setTypedArrayValues(context, attrs, defStyle);
+
+    }
+
+
+    private void viewInit(Context context) {
         onImageClickListener = new OnImageClickListener(context);
         setOnClickListener(onImageClickListener);
         setZoomEnabled(false);
+    }
+
+
+    private void setTypedArrayValues(Context context, AttributeSet attrs, int defStyle) {
+        TypedArray typedArray = context.getTheme().obtainStyledAttributes(attrs, R.styleable.LeonImageView, defStyle, 0);
+
+        try {
+            reloadImageRes = (typedArray.getResourceId(R.styleable.LeonImageView_reload_icon, R.drawable.ic_reload));
+
+            defaultImageRes = (typedArray.getResourceId(R.styleable.LeonImageView_default_icon, R.drawable.ic_default));
+
+            videoPlayImageRes = (typedArray.getResourceId(R.styleable.LeonImageView_video_play_icon, R.drawable.ic_play_colored));
+
+            placeHolderImageRes = (typedArray.getResourceId(R.styleable.LeonImageView_place_holder_icon, R.drawable.layer_place_holder));
+        } finally {
+            typedArray.recycle();
+        }
     }
 
 
@@ -49,13 +73,33 @@ public class LeonImageView extends TouchImageView {
     }
 
 
+    //-----------------------------------------Setters & Getters------------------------------------
+
+
+    public int getReloadImageRes() {
+        return reloadImageRes;
+    }
+
+    public void setReloadImageRes(int reloadImageRes) {
+        this.reloadImageRes = reloadImageRes;
+    }
+
+
     public int getDefaultImageRes() {
         return defaultImageRes;
     }
 
-
     public void setDefaultImageRes(int defaultImageRes) {
         this.defaultImageRes = defaultImageRes;
+    }
+
+
+    public int getVideoPlayImageRes() {
+        return videoPlayImageRes;
+    }
+
+    public void setVideoPlayImageRes(int videoPlayImageRes) {
+        this.videoPlayImageRes = videoPlayImageRes;
     }
 
 
@@ -63,68 +107,101 @@ public class LeonImageView extends TouchImageView {
         return placeHolderImageRes;
     }
 
-
     public void setPlaceHolderImageRes(int placeHolderImageRes) {
         this.placeHolderImageRes = placeHolderImageRes;
     }
 
 
-    public void loadProfileImage(Media media, Transformation transformation) {
-        try {
-            Picasso.get().load(media.getPath()).placeholder(placeHolderImageRes).transform(transformation).into(this);
-        } catch (NullPointerException ignored) {
-            this.setImageResource(defaultImageRes);
-        }
+    //-----------------------------------------LeonImageMethods-------------------------------------
+
+
+    public void loadImage(Object object) {
+        executePicasso(handleObject(object), null);
+        setMedia(handleObject(object));
     }
 
 
-    public void loadProfileImage(String url, Transformation transformation) {
+    public void loadImage(Object object, Transformation transformation) {
+        executePicasso(handleObject(object), transformation);
+        setMedia(handleObject(object));
+    }
+
+
+    public void loadImages(List<Object> objectList) {
+        setMedia(getMediaList(objectList), 0, "en");
+    }
+
+
+    public void loadImages(List<Object> objectList, int currentPosition) {
+        setMedia(getMediaList(objectList), currentPosition, "en");
+    }
+
+
+    public void loadImages(List<Object> objectList, int currentPosition, String appLanguage) {
+        setMedia(getMediaList(objectList), currentPosition, appLanguage);
+    }
+
+
+    private List<String> getMediaList(List<Object> objectList) {
+        List<String> stringList = new ArrayList<>();
+        for (Object o : objectList) {
+            stringList.add(handleObject(o));
+        }
+        return stringList;
+    }
+
+
+    private String handleObject(Object object) {
+        String urlPath = null;
         try {
-            if (!url.isEmpty())
-                Picasso.get().load(url).placeholder(placeHolderImageRes).transform(transformation).into(this);
-            else
+            if (object != null) {
+                if (object instanceof String) {
+                    String s = (String) object;
+                    if (!s.contains("http"))
+                        urlPath = "file://" + s;
+                    else
+                        urlPath = s;
+
+                } else if (object instanceof File) {
+                    File file = (File) object;
+                    urlPath = file.getPath();
+
+                } else if (object instanceof Media) {
+                    Media media = (Media) object;
+                    if (media.getType().equals(Media.TYPE_VIDEO))
+                        urlPath = YouTube_Thumb.concat(media.getPath().substring(media.getPath().indexOf("=") + 1)).concat("/0.jpg");
+                    else {
+                        if (!media.getPath().contains("http"))
+                            urlPath = "file://" + media.getPath();
+                        else
+                            urlPath = media.getPath();
+                    }
+                }
+            } else
                 this.setImageResource(defaultImageRes);
+
         } catch (NullPointerException ignored) {
             this.setImageResource(defaultImageRes);
         }
+
+        return urlPath;
     }
 
 
-    public void loadProfileImage(File file, Transformation transformation) {
-        try {
-            if (!file.getPath().isEmpty())
-                Picasso.get().load(file).placeholder(placeHolderImageRes).transform(transformation).into(this);
-            else
-                this.setImageResource(defaultImageRes);
-            Picasso.get().load(file).transform(transformation).into(this);
-        } catch (NullPointerException ignored) {
-            this.setImageResource(defaultImageRes);
-        }
+    protected void executePicasso(String urlPath, Transformation transformation) {
+        if (transformation != null)
+            Picasso.get().load(urlPath).transform(transformation).into(new PicassoTarget(this, urlPath, transformation));
+        else
+            Picasso.get().load(urlPath).into(new PicassoTarget(this, urlPath));
     }
 
 
-    public void loadImage(Media media) {
-        try {
-            if (media.getType().equals(Media.TYPE_VIDEO))
-                Picasso.get().load(YouTube_Thumb.concat(media.getPath().substring(media.getPath().indexOf("=") + 1)).concat("/0.jpg")).into(this);
-            else {
-                if (media.getPath().contains("http"))
-                    Picasso.get().load(media.getPath()).placeholder(placeHolderImageRes).into(this);
-                else
-                    Picasso.get().load("file://" + media.getPath()).placeholder(placeHolderImageRes).into(this);
-            }
-        } catch (NullPointerException ignored) {
-            this.setImageResource(defaultImageRes);
-        }
-    }
-
-
-    public void setMedia(Media media) {
+    private void setMedia(String media) {
         onImageClickListener.setMedia(media);
     }
 
 
-    public void setMedia(List<Media> mediaList, int currentPosition, String appLanguage) {
+    private void setMedia(List<String> mediaList, int currentPosition, String appLanguage) {
         onImageClickListener.setMedia(mediaList, currentPosition, appLanguage);
     }
 
