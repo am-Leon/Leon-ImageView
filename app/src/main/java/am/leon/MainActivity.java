@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
         imageView = findViewById(R.id.img);
 //        imageView.loadImage("https://brands.solutionplus.net/storage/photos/configs/blue-note-863135.jpeg");
         imageView.loadMediaImages(mediaList);
+
     }
 
 }
