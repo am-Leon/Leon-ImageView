@@ -52,11 +52,29 @@ public class LeonImageView extends TouchImageView {
 
         defaultImageRes = (typedArray.getResourceId(R.styleable.LeonImageView_default_icon, R.drawable.ic_default));
 
-        videoPlayImageRes = (typedArray.getResourceId(R.styleable.LeonImageView_video_play_icon, R.drawable.ic_play_colored));
+        videoPlayImageRes = (typedArray.getResourceId(R.styleable.LeonImageView_play_video_icon, R.drawable.ic_play_colored));
 
         placeHolderImageRes = (typedArray.getResourceId(R.styleable.LeonImageView_place_holder_icon, R.drawable.layer_place_holder));
         typedArray.recycle();
 
+    }
+
+
+    private void setTypedArrayValues(Context context, int leonImageViewStyle) {
+        // The attributes you want retrieved
+        int[] attrs = {R.attr.reload_icon, R.attr.default_icon, R.attr.play_video_icon, R.attr.play_video_icon};
+
+        // Parse LeonImageView, using Context.obtainStyledAttributes()
+        TypedArray typedArray = context.obtainStyledAttributes(leonImageViewStyle, attrs);
+
+        reloadImageRes = (typedArray.getResourceId(R.styleable.LeonImageView_reload_icon, R.drawable.layer_reload));
+
+        defaultImageRes = (typedArray.getResourceId(R.styleable.LeonImageView_default_icon, R.drawable.ic_default));
+
+        videoPlayImageRes = (typedArray.getResourceId(R.styleable.LeonImageView_play_video_icon, R.drawable.ic_play_colored));
+
+        placeHolderImageRes = (typedArray.getResourceId(R.styleable.LeonImageView_place_holder_icon, R.drawable.layer_place_holder));
+        typedArray.recycle();
     }
 
 
@@ -113,6 +131,12 @@ public class LeonImageView extends TouchImageView {
 
     public void loadImage(Object object) {
         executePicasso(handleObject(object), null);
+        setMedia(handleObject(object));
+    }
+
+
+    protected void loadImage(Object object, boolean fromFullScreen) {
+        executePicasso(handleObject(object), fromFullScreen);
         setMedia(handleObject(object));
     }
 
@@ -282,11 +306,11 @@ public class LeonImageView extends TouchImageView {
     }
 
 
-    protected void executePicasso(String urlPath) {
+    protected void executePicasso(String urlPath, boolean fromFullScreen) {
         Picasso.get().load(urlPath)
                 .placeholder(getPlaceHolderImageRes())
                 .error(getReloadImageRes())
-                .into(this, new PicassoCallback(this, urlPath, true));
+                .into(this, new PicassoCallback(this, urlPath, fromFullScreen));
     }
 
 

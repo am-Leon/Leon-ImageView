@@ -57,7 +57,7 @@ class FullScreenImageAdapter extends PagerAdapter implements View.OnClickListene
         viewInit();
 
         String media = list.get(position);
-        imageView.executePicasso(media);
+        imageView.executePicasso(media, true);
 
         if (media != null && media.contains(Utils.YouTube_Thumb)) {
             ic_video.setVisibility(View.VISIBLE);

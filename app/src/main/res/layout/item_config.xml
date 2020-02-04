@@ -34,9 +34,9 @@
             android:layout_marginEnd="8dp"
             android:maxLines="2"
             android:padding="2dp"
+            android:text="iPhone XS all colors 64 GB 4G LTE - Gold iPhone XS all colors 64 GB 4G LTE - Gold iPhone XS all colors 64 GB 4G LTE - Gold "
             android:textAlignment="textStart"
-            android:textSize="12sp"
-            android:text="iPhone XS all colors 64 GB 4G LTE - Gold iPhone XS all colors 64 GB 4G LTE - Gold iPhone XS all colors 64 GB 4G LTE - Gold " />
+            android:textSize="12sp" />
 
 
         <LinearLayout
@@ -61,9 +61,9 @@
                     android:layout_marginStart="8dp"
                     android:maxLines="1"
                     android:padding="2dp"
+                    android:text="2100 SAR"
                     android:textAlignment="viewStart"
-                    android:textSize="12sp"
-                    android:text="2100 SAR" />
+                    android:textSize="12sp" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/txt_config_totalAmount"
@@ -72,9 +72,9 @@
                     android:layout_marginStart="8dp"
                     android:maxLines="1"
                     android:padding="2dp"
+                    android:text="3900 SAR"
                     android:textAlignment="viewStart"
-                    android:textSize="12sp"
-                    android:text="3900 SAR" />
+                    android:textSize="12sp" />
 
             </LinearLayout>
 

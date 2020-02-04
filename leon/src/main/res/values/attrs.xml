@@ -5,10 +5,9 @@
     </declare-styleable>
 
     <declare-styleable name="LeonImageView">
-<!--        <attr name="zoom_enabled" format="boolean" />-->
         <attr name="reload_icon" format="reference" />
         <attr name="default_icon" format="reference" />
-        <attr name="video_play_icon" format="reference" />
+        <attr name="play_video_icon" format="reference" />
         <attr name="place_holder_icon" format="reference" />
     </declare-styleable>
 

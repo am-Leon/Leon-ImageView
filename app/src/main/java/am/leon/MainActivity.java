@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.item_config);
+
         mediaList.add(new Media("https://brands.solutionplus.net/storage/photos/configs/blue-note-863135.jpeg", Media.TYPE_PHOTO));
         mediaList.add(new Media("https://brands.solutionplus.net/storage/photos/configs/blue-ocean-large-876999.jpeg", Media.TYPE_PHOTO));
 //        mediaList.add("https://brands.solutionplus.net/storage/photos/configs/blue-note-863135.jpeg");

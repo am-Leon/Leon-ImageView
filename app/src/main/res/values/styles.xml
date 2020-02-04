@@ -8,4 +8,10 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="ImageView">
+        <item name="reload_icon">@drawable/ic_delete_sweep_black_24dp</item>
+        <item name="default_icon">@drawable/ic_delete_sweep_black_24dp</item>
+        <item name="place_holder_icon">@drawable/ic_directions_bike_black_24dp</item>
+    </style>
+
 </resources>

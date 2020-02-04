@@ -64,7 +64,7 @@ public class PicassoCallback implements Callback, View.OnClickListener {
         if (transformation != null)
             imageView.loadImage(urlPath, transformation);
         else
-            imageView.loadImage(urlPath);
+            imageView.loadImage(urlPath, fromFullScreen);
     }
 
 }
