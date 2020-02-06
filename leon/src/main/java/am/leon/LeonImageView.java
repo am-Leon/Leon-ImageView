@@ -7,6 +7,8 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
@@ -294,12 +296,16 @@ public class LeonImageView extends TouchImageView {
     private void executePicasso(String urlPath, Transformation transformation) {
         if (transformation != null)
             Picasso.get().load(urlPath)
+                    .networkPolicy(NetworkPolicy.NO_CACHE)
+                    .memoryPolicy(MemoryPolicy.NO_CACHE)
                     .placeholder(getPlaceHolderImageRes())
                     .error(getReloadImageRes())
                     .transform(transformation)
                     .into(this, new PicassoCallback(this, urlPath, transformation));
         else
             Picasso.get().load(urlPath)
+                    .networkPolicy(NetworkPolicy.NO_CACHE)
+                    .memoryPolicy(MemoryPolicy.NO_CACHE)
                     .placeholder(getPlaceHolderImageRes())
                     .error(getReloadImageRes())
                     .into(this, new PicassoCallback(this, urlPath));
@@ -308,6 +314,8 @@ public class LeonImageView extends TouchImageView {
 
     protected void executePicasso(String urlPath, boolean fromFullScreen) {
         Picasso.get().load(urlPath)
+                .networkPolicy(NetworkPolicy.NO_CACHE)
+                .memoryPolicy(MemoryPolicy.NO_CACHE)
                 .placeholder(getPlaceHolderImageRes())
                 .error(getReloadImageRes())
                 .into(this, new PicassoCallback(this, urlPath, fromFullScreen));
