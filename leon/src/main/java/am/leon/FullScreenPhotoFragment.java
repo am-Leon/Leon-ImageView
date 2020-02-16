@@ -11,6 +11,7 @@ import android.view.Window;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ import java.util.List;
 
 import am.leon.swipePackage.SwipeDialogFragment;
 
-public class FullScreenPhotoFragment extends SwipeDialogFragment {
+public class FullScreenPhotoFragment extends SwipeDialogFragment implements SingleImageFragment.ImageZoomCallback {
 
     private View view;
     private int position;
@@ -104,6 +105,7 @@ public class FullScreenPhotoFragment extends SwipeDialogFragment {
 
         viewpager.setCurrentItem(position);
         adapter.setMediaList(mediaList, viewpager.getCurrentItem());
+//        adapter.setMediaList(mediaList);
 
         return view;
     }
@@ -112,7 +114,8 @@ public class FullScreenPhotoFragment extends SwipeDialogFragment {
     private void viewInit() {
         viewpager = view.findViewById(R.id.media_viewpager_test);
 
-        adapter = new FullScreenImageAdapter(getContext(), appLanguage);
+        adapter = new FullScreenImageAdapter(getChildFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        adapter.setPageSetting(appLanguage, this);
         viewpager.setAdapter(adapter);
 
         if (appLanguage != null) {
@@ -123,13 +126,22 @@ public class FullScreenPhotoFragment extends SwipeDialogFragment {
         }
     }
 
+
     @Override
     public void dismiss() {
         fullScreenStatus.fullScreenStatus(false);
         super.dismiss();
     }
 
+
+    @Override
+    public void isZoomed(boolean isZoomed) {
+        setSwipeable(!isZoomed);
+    }
+
+
     public interface FullScreenStatus {
         void fullScreenStatus(boolean status);
     }
+
 }
