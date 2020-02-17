@@ -37,8 +37,8 @@ public class PicassoCallback implements Callback, View.OnClickListener {
             imageView.setScaleX(.1f);
             imageView.setScaleY(.1f);
         } else {
-            imageView.setScaleX(.5f);
-            imageView.setScaleY(.5f);
+            imageView.setScaleX(.3f);
+            imageView.setScaleY(.3f);
         }
     }
 
