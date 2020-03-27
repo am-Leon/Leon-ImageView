@@ -3,10 +3,10 @@ package am.leon;
 import android.content.Context;
 import android.view.View;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import static am.leon.Utils.unwrap;
 
 class OnImageClickListener implements View.OnClickListener, FullScreenPhotoFragment.FullScreenStatus {
 
@@ -42,9 +42,9 @@ class OnImageClickListener implements View.OnClickListener, FullScreenPhotoFragm
     public void onClick(View view) {
         this.view = view;
         if (media != null)
-            FullScreenPhotoFragment.getInstance(media, this).show(((AppCompatActivity) context).getSupportFragmentManager(), getClass().getName());
+            FullScreenPhotoFragment.getInstance(media, this).show(unwrap(context).getSupportFragmentManager(), getClass().getName());
         else if (mediaList != null)
-            FullScreenPhotoFragment.getInstance(mediaList, currentPosition, appLanguage, this).show(((AppCompatActivity) context).getSupportFragmentManager(), getClass().getName());
+            FullScreenPhotoFragment.getInstance(mediaList, currentPosition, appLanguage, this).show(unwrap(context).getSupportFragmentManager(), getClass().getName());
     }
 
 

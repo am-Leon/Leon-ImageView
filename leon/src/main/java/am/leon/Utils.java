@@ -2,10 +2,14 @@ package am.leon;
 
 import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.util.DisplayMetrics;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.ContextThemeWrapper;
 
 import java.util.Locale;
 
@@ -21,6 +25,15 @@ class Utils {
         } catch (ActivityNotFoundException ex) {
             context.startActivity(webIntent);
         }
+    }
+
+
+    static AppCompatActivity unwrap(Context context) {
+        while (context instanceof ContextThemeWrapper) {
+            context = ((ContextWrapper) context).getBaseContext();
+        }
+
+        return (AppCompatActivity) context;
     }
 
 
