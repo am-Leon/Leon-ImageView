@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginBottom="8dp"
+    app:cardBackgroundColor="@android:color/white"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="1dp">
+
+    <am.leon.LeonImageView
+        android:id="@+id/img_itemPhoto"
+        style="@style/ImageView"
+        android:layout_width="match_parent"
+        android:layout_height="168dp"
+        android:scaleType="fitXY"
+        tools:src="@tools:sample/avatars" />
+
+</androidx.cardview.widget.CardView>

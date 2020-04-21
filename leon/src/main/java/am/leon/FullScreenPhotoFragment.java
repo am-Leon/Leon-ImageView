@@ -103,9 +103,9 @@ public class FullScreenPhotoFragment extends SwipeDialogFragment implements Sing
 
         fullScreenStatus.fullScreenStatus(true);
 
+//        adapter.setMediaList(mediaList, position);
+        adapter.setMediaList(mediaList);
         viewpager.setCurrentItem(position);
-        adapter.setMediaList(mediaList, viewpager.getCurrentItem());
-//        adapter.setMediaList(mediaList);
 
         return view;
     }
