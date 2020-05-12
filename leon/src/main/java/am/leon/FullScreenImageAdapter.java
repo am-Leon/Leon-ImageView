@@ -1,50 +1,190 @@
 package am.leon;
 
+import android.content.Context;
+import android.net.Uri;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.appcompat.widget.AppCompatImageView;
+import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
-public class FullScreenImageAdapter extends FragmentStatePagerAdapter {
+import java.io.File;
 
-    private List<String> list;
-    private String appLanguage;
-    private SingleImageFragment.ImageZoomCallback zoomCallback;
+class FullScreenImageAdapter extends RecyclerView.Adapter<FullScreenImageAdapter.ViewHolder> {
+
+    private Context context;
+    private LeonObject leonObject;
+    private ImageZoomCallback zoomCallback;
 
 
-    FullScreenImageAdapter(@NonNull FragmentManager fm, int behavior) {
-        super(fm, behavior);
-        list = new ArrayList<>();
-    }
-
-    void setPageSetting(String appLanguage, SingleImageFragment.ImageZoomCallback zoomCallback) {
-        this.appLanguage = appLanguage;
+    FullScreenImageAdapter(Context context, LeonObject leonObject, ImageZoomCallback zoomCallback) {
+        this.context = context;
+        this.leonObject = leonObject;
         this.zoomCallback = zoomCallback;
     }
 
-    void setMediaList(List<String> list) {
-        this.list = list;
-        notifyDataSetChanged();
-    }
-
-    void setMediaList(List<String> list, int currentPosition) {
-        this.list = list;
-        notifyDataSetChanged();
-        getItem(currentPosition);
-    }
 
     @NonNull
     @Override
-    public Fragment getItem(int position) {
-        return SingleImageFragment.getInstance(list.get(position), appLanguage, zoomCallback);
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.item_media, parent, false);
+        return new ViewHolder(view);
     }
 
+
     @Override
-    public int getCount() {
-        return list.size();
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        LeonMedia leonMedia = leonObject.getLeonMedia().get(position);
+
+        holder.imageView.setScaleX(.1f);
+        holder.imageView.setScaleY(.1f);
+        holder.imageView.setZoomEnabled(false);
+
+        holder.handleLeonMedia(leonMedia);
+
+    }
+
+
+    @Override
+    public int getItemCount() {
+        return leonObject.getLeonMedia().size();
+    }
+
+
+    class ViewHolder extends RecyclerView.ViewHolder implements TouchImageView.OnTouchImageViewListener, View.OnClickListener, Callback {
+
+        private LeonImageView imageView;
+        private AppCompatImageView ic_video;
+        private boolean loadingError = false;
+
+        ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            ic_video = itemView.findViewById(R.id.videoImage);
+            imageView = itemView.findViewById(R.id.image);
+            imageView.setOnTouchImageViewListener(this);
+            imageView.setOnClickListener(null);
+
+            imageView.setPlaceHolderImageRes(leonObject.getPlaceHolderImageRes());
+            imageView.setVideoPlayImageRes(leonObject.getVideoPlayImageRes());
+            imageView.setDefaultImageRes(leonObject.getDefaultImageRes());
+            imageView.setReloadImageRes(leonObject.getReloadImageRes());
+
+        }
+
+
+        @Override
+        public void onMove() {
+            if (zoomCallback != null)
+                zoomCallback.isZoomed(imageView.isZoomed());
+        }
+
+
+        private void handleLeonMedia(LeonMedia leonMedia) {
+            switch (leonMedia.getType()) {
+                case URI:
+                    executePicasso((Uri) leonMedia.getObject());
+                    break;
+
+                case MEDIA:
+                    executePicasso(Utils.getMediaPath((Media) leonMedia.getObject()));
+                    break;
+
+                case FILE:
+                    try {
+                        executePicasso(((File) leonMedia.getObject()).getPath());
+                    } catch (Exception e) {
+                        executePicasso(((File) leonMedia.getObject()).getAbsolutePath());
+                    }
+                    break;
+
+                case STRING:
+                    executePicasso((String) leonMedia.getObject());
+                    break;
+
+                case RESOURCE:
+                    imageView.setImageResource((Integer) leonMedia.getObject());
+                    break;
+            }
+        }
+
+
+        private void handleMediaObject(Media media) {
+            if (media.getType().equals(Media.TYPE_VIDEO) && media.getPath().contains(Utils.YouTube_Thumb)) {
+                ic_video.setVisibility(View.VISIBLE);
+                imageView.setOnClickListener(this);
+            } else
+                ic_video.setVisibility(View.GONE);
+        }
+
+
+        private void executePicasso(Uri uri) {
+            Picasso.get()
+                    .load(uri)
+                    .placeholder(leonObject.getPlaceHolderImageRes())
+                    .error(leonObject.getReloadImageRes())
+                    .into(imageView, this);
+        }
+
+
+        private void executePicasso(String path) {
+            Picasso.get()
+                    .load(path)
+                    .placeholder(leonObject.getPlaceHolderImageRes())
+                    .error(leonObject.getReloadImageRes())
+                    .into(imageView, this);
+        }
+
+
+        @Override
+        public void onSuccess() {
+            loadingError = false;
+            imageView.setScaleX(1);
+            imageView.setScaleY(1);
+            imageView.setZoomEnabled(true);
+
+            try {
+                LeonMedia leonMedia = leonObject.getLeonMedia().get(getAdapterPosition());
+                if (leonMedia.getType().equals(LeonMedia.LeonMediaType.MEDIA))
+                    handleMediaObject((Media) leonMedia.getObject());
+            } catch (ArrayIndexOutOfBoundsException ignored) {
+            }
+        }
+
+
+        @Override
+        public void onError(Exception e) {
+            loadingError = true;
+            imageView.setScaleX(.1f);
+            imageView.setScaleY(.1f);
+            imageView.setZoomEnabled(false);
+            imageView.setOnClickListener(this);
+        }
+
+
+        @Override
+        public void onClick(View v) {
+            LeonMedia leonMedia = leonObject.getLeonMedia().get(getAdapterPosition());
+            if (loadingError)
+                handleLeonMedia(leonMedia);
+            else {
+                if (leonMedia.getType().equals(LeonMedia.LeonMediaType.MEDIA)) {
+                    Media media = (Media) leonMedia.getObject();
+                    if (media.getPath() != null && media.getPath().contains(Utils.YouTube_Thumb))
+                        Utils.youtubePlay(context, media.getPath().substring(media.getPath().indexOf("=") + 1));
+                }
+            }
+        }
+
+    }
+
+
+    interface ImageZoomCallback {
+        void isZoomed(boolean isZoomed);
     }
 
 }

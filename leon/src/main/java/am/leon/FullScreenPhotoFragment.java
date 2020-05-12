@@ -11,27 +11,18 @@ import android.view.Window;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.viewpager.widget.ViewPager;
-
-import java.util.ArrayList;
-import java.util.List;
+import androidx.viewpager2.widget.ViewPager2;
 
 import am.leon.swipePackage.SwipeDialogFragment;
 
-public class FullScreenPhotoFragment extends SwipeDialogFragment implements SingleImageFragment.ImageZoomCallback {
+public class FullScreenPhotoFragment extends SwipeDialogFragment implements FullScreenImageAdapter.ImageZoomCallback {
 
     private View view;
-    private int position;
-    private String appLanguage;
-    private ViewPager viewpager;
+    private ViewPager2 viewpager;
+    private LeonObject leonObject;
     private FullScreenImageAdapter adapter;
     private FullScreenStatus fullScreenStatus;
-    private List<String> mediaList = new ArrayList<>();
-    private static final String MEDIA_TAG = "media_tag";
-    private static final String APP_LANGUAGE = "appLanguage";
-    private static final String MEDIA_LIST_TAG = "mediaList_tag";
-    private static final String MEDIA_CURRENT_POSITION = "currentPosition";
+    private static final String LEON_TAG = "leon_tag";
 
 
     public FullScreenPhotoFragment() {
@@ -46,22 +37,10 @@ public class FullScreenPhotoFragment extends SwipeDialogFragment implements Sing
     }
 
 
-    static FullScreenPhotoFragment getInstance(String media, FullScreenStatus fullScreenStatus) {
+    static FullScreenPhotoFragment getInstance(LeonObject leonObject, FullScreenStatus fullScreenStatus) {
         FullScreenPhotoFragment sheet = new FullScreenPhotoFragment();
         Bundle bundle = new Bundle();
-        bundle.putString(MEDIA_TAG, media);
-        sheet.fullScreenStatus = fullScreenStatus;
-        sheet.setArguments(bundle);
-        return sheet;
-    }
-
-
-    static FullScreenPhotoFragment getInstance(List<String> mediaList, int currentPosition, String appLanguage, FullScreenStatus fullScreenStatus) {
-        FullScreenPhotoFragment sheet = new FullScreenPhotoFragment();
-        Bundle bundle = new Bundle();
-        bundle.putStringArrayList(MEDIA_LIST_TAG, (ArrayList<String>) mediaList);
-        bundle.putInt(MEDIA_CURRENT_POSITION, currentPosition);
-        bundle.putString(APP_LANGUAGE, appLanguage);
+        bundle.putParcelable(LEON_TAG, leonObject);
         sheet.fullScreenStatus = fullScreenStatus;
         sheet.setArguments(bundle);
         return sheet;
@@ -71,15 +50,8 @@ public class FullScreenPhotoFragment extends SwipeDialogFragment implements Sing
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            if (getArguments().getStringArrayList(MEDIA_LIST_TAG) != null) {
-                mediaList = getArguments().getStringArrayList(MEDIA_LIST_TAG);
-                position = getArguments().getInt(MEDIA_CURRENT_POSITION, 0);
-                appLanguage = getArguments().getString(APP_LANGUAGE);
-
-            } else if (getArguments().getString(MEDIA_TAG) != null)
-                mediaList.add(getArguments().getString(MEDIA_TAG));
-        }
+        if (getArguments() != null)
+            leonObject = getArguments().getParcelable(LEON_TAG);
     }
 
 
@@ -102,27 +74,21 @@ public class FullScreenPhotoFragment extends SwipeDialogFragment implements Sing
         viewInit();
 
         fullScreenStatus.fullScreenStatus(true);
-
-//        adapter.setMediaList(mediaList, position);
-        adapter.setMediaList(mediaList);
-        viewpager.setCurrentItem(position);
+        viewpager.setCurrentItem(leonObject.getCurrentPosition(), false);
 
         return view;
     }
 
 
     private void viewInit() {
-        viewpager = view.findViewById(R.id.media_viewpager_test);
+        viewpager = view.findViewById(R.id.leon_viewpager);
 
-        adapter = new FullScreenImageAdapter(getChildFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-        adapter.setPageSetting(appLanguage, this);
+        adapter = new FullScreenImageAdapter(getContext(), leonObject, this);
         viewpager.setAdapter(adapter);
 
-        if (appLanguage != null) {
-            if (appLanguage.equals("ar")) {
+        if (leonObject.getAppLanguage() != null) {
+            if (leonObject.getAppLanguage().equals("ar"))
                 viewpager.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
-                viewpager.setRotationY(180);
-            }
         }
     }
 
@@ -137,6 +103,7 @@ public class FullScreenPhotoFragment extends SwipeDialogFragment implements Sing
     @Override
     public void isZoomed(boolean isZoomed) {
         setSwipeable(!isZoomed);
+        viewpager.setUserInputEnabled(!isZoomed);
     }
 
 

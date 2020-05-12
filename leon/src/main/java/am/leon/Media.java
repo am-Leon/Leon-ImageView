@@ -5,6 +5,8 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
+import java.util.Objects;
+
 public class Media implements Parcelable {
 
     public static final String TYPE_PHOTO = "photo";
@@ -21,6 +23,26 @@ public class Media implements Parcelable {
     public Media(String path, String type) {
         this.path = path;
         this.type = type;
+    }
+
+    public Media(String path, String title, String type) {
+        this.path = path;
+        this.title = title;
+        this.type = type;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Media media = (Media) o;
+        return type.equals(media.type) &&
+                Objects.equals(title, media.title);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(type, title);
     }
 
     private Media(Parcel in) {
@@ -110,6 +132,14 @@ public class Media implements Parcelable {
     @NonNull
     @Override
     public String toString() {
-        return getId() + " " + getType() + " " + getPath();
+        return "Media{" +
+                "id=" + id +
+                ", path='" + path + '\'' +
+                ", type='" + type + '\'' +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", main=" + main +
+                '}';
     }
+
 }

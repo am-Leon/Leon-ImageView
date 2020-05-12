@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.item_config);
+        setContentView(R.layout.activity_main);
         viewInit();
 
         adapter.addAll(getImagesList());
@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private void viewInit() {
         recycler_gallery = findViewById(R.id.recycler_gallery);
 
-        adapter = new GalleryAdapter(this, "en");
+        adapter = new GalleryAdapter(this, "ar");
         recycler_gallery.setAdapter(adapter);
         recycler_gallery.setLayoutManager(new GridLayoutManager(this, 2));
     }

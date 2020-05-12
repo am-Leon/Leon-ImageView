@@ -2,6 +2,7 @@ package am.leon;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.net.Uri;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -11,10 +12,10 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
-import static am.leon.Utils.YouTube_Thumb;
+import static am.leon.Utils.getMediaPath;
+import static am.leon.Utils.getStringPath;
 
 public class LeonImageView extends TouchImageView {
 
@@ -48,13 +49,13 @@ public class LeonImageView extends TouchImageView {
     private void setTypedArrayValues(Context context, AttributeSet attrs, int defStyle) {
         TypedArray typedArray = context.getTheme().obtainStyledAttributes(attrs, R.styleable.LeonImageView, defStyle, 0);
 
-        reloadImageRes = (typedArray.getResourceId(R.styleable.LeonImageView_reload_icon, R.drawable.layer_reload));
+        setReloadImageRes(typedArray.getResourceId(R.styleable.LeonImageView_leon_reload_icon, R.drawable.layer_reload));
 
-        defaultImageRes = (typedArray.getResourceId(R.styleable.LeonImageView_default_icon, R.drawable.ic_default));
+        setDefaultImageRes(typedArray.getResourceId(R.styleable.LeonImageView_leon_default_icon, R.drawable.ic_default));
 
-        videoPlayImageRes = (typedArray.getResourceId(R.styleable.LeonImageView_play_video_icon, R.drawable.ic_play_colored));
+        setVideoPlayImageRes(typedArray.getResourceId(R.styleable.LeonImageView_leon_play_video_icon, R.drawable.ic_play_colored));
 
-        placeHolderImageRes = (typedArray.getResourceId(R.styleable.LeonImageView_place_holder_icon, R.drawable.layer_place_holder));
+        setPlaceHolderImageRes(typedArray.getResourceId(R.styleable.LeonImageView_leon_place_holder_icon, R.drawable.layer_place_holder));
         typedArray.recycle();
 
     }
@@ -62,18 +63,18 @@ public class LeonImageView extends TouchImageView {
 
     private void setTypedArrayValues(Context context, int leonImageViewStyle) {
         // The attributes you want retrieved
-        int[] attrs = {R.attr.reload_icon, R.attr.default_icon, R.attr.play_video_icon, R.attr.play_video_icon};
+        int[] attrs = {R.attr.leon_reload_icon, R.attr.leon_default_icon, R.attr.leon_play_video_icon, R.attr.leon_play_video_icon};
 
         // Parse LeonImageView, using Context.obtainStyledAttributes()
         TypedArray typedArray = context.obtainStyledAttributes(leonImageViewStyle, attrs);
 
-        reloadImageRes = (typedArray.getResourceId(R.styleable.LeonImageView_reload_icon, R.drawable.layer_reload));
+        setReloadImageRes(typedArray.getResourceId(R.styleable.LeonImageView_leon_reload_icon, R.drawable.layer_reload));
 
-        defaultImageRes = (typedArray.getResourceId(R.styleable.LeonImageView_default_icon, R.drawable.ic_default));
+        setDefaultImageRes(typedArray.getResourceId(R.styleable.LeonImageView_leon_default_icon, R.drawable.ic_default));
 
-        videoPlayImageRes = (typedArray.getResourceId(R.styleable.LeonImageView_play_video_icon, R.drawable.ic_play_colored));
+        setVideoPlayImageRes(typedArray.getResourceId(R.styleable.LeonImageView_leon_play_video_icon, R.drawable.ic_play_colored));
 
-        placeHolderImageRes = (typedArray.getResourceId(R.styleable.LeonImageView_place_holder_icon, R.drawable.layer_place_holder));
+        setPlaceHolderImageRes(typedArray.getResourceId(R.styleable.LeonImageView_leon_place_holder_icon, R.drawable.layer_place_holder));
         typedArray.recycle();
     }
 
@@ -96,6 +97,7 @@ public class LeonImageView extends TouchImageView {
 
     public void setReloadImageRes(int reloadImageRes) {
         this.reloadImageRes = reloadImageRes;
+        onImageClickListener.setReloadImageRes(reloadImageRes);
     }
 
 
@@ -105,6 +107,7 @@ public class LeonImageView extends TouchImageView {
 
     public void setDefaultImageRes(int defaultImageRes) {
         this.defaultImageRes = defaultImageRes;
+        onImageClickListener.setDefaultImageRes(defaultImageRes);
     }
 
 
@@ -114,6 +117,7 @@ public class LeonImageView extends TouchImageView {
 
     public void setVideoPlayImageRes(int videoPlayImageRes) {
         this.videoPlayImageRes = videoPlayImageRes;
+        onImageClickListener.setVideoPlayImageRes(videoPlayImageRes);
     }
 
 
@@ -123,168 +127,136 @@ public class LeonImageView extends TouchImageView {
 
     public void setPlaceHolderImageRes(int placeHolderImageRes) {
         this.placeHolderImageRes = placeHolderImageRes;
+        onImageClickListener.setPlaceHolderImageRes(placeHolderImageRes);
     }
 
 
     //-----------------------------------------LeonImageMethods-------------------------------------
 
-
+    // TODO: 5/12/20 handle uri...
     public void loadImage(Object object) {
         executePicasso(handleObject(object), null);
         setMedia(handleObject(object));
     }
 
-
-    protected void loadImage(Object object, boolean fromFullScreen) {
-        executePicasso(handleObject(object), fromFullScreen);
-        setMedia(handleObject(object));
-    }
-
-
+    // TODO: 5/12/20 handle uri...
     public void loadImage(Object object, Transformation transformation) {
         executePicasso(handleObject(object), transformation);
         setMedia(handleObject(object));
     }
 
 
-    //-----------------------------------------ListObjectsMethods-----------------------------------
+    //-----------------------------------------UriListMethods---------------------------------------
 
 
-    public void loadObjectImages(List<Object> objectList) {
-        setMedia(getObjectList(objectList), 0, "en");
+    public void loadUriImages(List<Uri> uriList) {
+        onImageClickListener.setUriImages(uriList, 0, "en");
     }
 
 
-    public void loadObjectImages(List<Object> objectList, int currentPosition) {
-        setMedia(getObjectList(objectList), currentPosition, "en");
+    public void loadUriImages(List<Uri> uriList, int currentPosition) {
+        onImageClickListener.setUriImages(uriList, currentPosition, "en");
     }
 
 
-    public void loadObjectImages(List<Object> objectList, int currentPosition, String appLanguage) {
-        setMedia(getObjectList(objectList), currentPosition, appLanguage);
+    public void loadUriImages(List<Uri> uriList, int currentPosition, String appLanguage) {
+        onImageClickListener.setUriImages(uriList, currentPosition, appLanguage);
     }
 
 
-    private List<String> getObjectList(List<Object> objectList) {
-        List<String> stringList = new ArrayList<>();
-        for (Object o : objectList) {
-            stringList.add(handleObject(o));
-        }
-        return stringList;
-    }
-
-    //-----------------------------------------ListMediaMethods-------------------------------------
+    //-----------------------------------------MediaListMethods-------------------------------------
 
 
     public void loadMediaImages(List<Media> mediaList) {
-        setMedia(getMediaList(mediaList), 0, "en");
+        onImageClickListener.setMediaImages(mediaList, 0, "en");
     }
 
 
     public void loadMediaImages(List<Media> mediaList, int currentPosition) {
-        setMedia(getMediaList(mediaList), currentPosition, "en");
+        onImageClickListener.setMediaImages(mediaList, currentPosition, "en");
     }
 
 
     public void loadMediaImages(List<Media> mediaList, int currentPosition, String appLanguage) {
-        setMedia(getMediaList(mediaList), currentPosition, appLanguage);
+        onImageClickListener.setMediaImages(mediaList, currentPosition, appLanguage);
     }
 
 
-    private List<String> getMediaList(List<Media> objectList) {
-        List<String> stringList = new ArrayList<>();
-        for (Media o : objectList) {
-            stringList.add(handleObject(o));
-        }
-        return stringList;
-    }
-
-    //-----------------------------------------ListFilesMethods-------------------------------------
+    //-----------------------------------------FileListMethods--------------------------------------
 
 
     public void loadFileImages(List<File> fileList) {
-        setMedia(getFileList(fileList), 0, "en");
+        onImageClickListener.setFileImages(fileList, 0, "en");
     }
 
 
     public void loadFileImages(List<File> fileList, int currentPosition) {
-        setMedia(getFileList(fileList), currentPosition, "en");
+        onImageClickListener.setFileImages(fileList, currentPosition, "en");
     }
 
 
     public void loadFileImages(List<File> fileList, int currentPosition, String appLanguage) {
-        setMedia(getFileList(fileList), currentPosition, appLanguage);
+        onImageClickListener.setFileImages(fileList, currentPosition, appLanguage);
     }
 
 
-    private List<String> getFileList(List<File> objectList) {
-        List<String> stringList = new ArrayList<>();
-        for (File o : objectList) {
-            stringList.add(handleObject(o));
-        }
-        return stringList;
-    }
-
-    //-----------------------------------------LeonImageMethods-------------------------------------
+    //-----------------------------------------StringListMethods------------------------------------
 
 
     public void loadImages(List<String> stringList) {
-        setMedia(getStringList(stringList), 0, "en");
+        onImageClickListener.setStringImages(stringList, 0, "en");
     }
 
 
     public void loadImages(List<String> stringList, int currentPosition) {
-        setMedia(getStringList(stringList), currentPosition, "en");
+        onImageClickListener.setStringImages(stringList, currentPosition, "en");
     }
 
 
     public void loadImages(List<String> stringList, int currentPosition, String appLanguage) {
-        setMedia(getStringList(stringList), currentPosition, appLanguage);
+        onImageClickListener.setStringImages(stringList, currentPosition, appLanguage);
     }
 
 
-    private List<String> getStringList(List<String> objectList) {
-        List<String> stringList = new ArrayList<>();
-        for (String o : objectList) {
-            stringList.add(handleObject(o));
-        }
-        return stringList;
+    //-----------------------------------------ResListMethods---------------------------------------
+
+    public void loadResImages(List<Integer> resList) {
+        onImageClickListener.setResImages(resList, 0, "en");
     }
+
+
+    public void loadResImages(List<Integer> resList, int currentPosition) {
+        onImageClickListener.setResImages(resList, currentPosition, "en");
+    }
+
+
+    public void loadResImages(List<Integer> resList, int currentPosition, String appLanguage) {
+        onImageClickListener.setResImages(resList, currentPosition, appLanguage);
+    }
+
 
     //-----------------------------------------LeonImageMethods-------------------------------------
 
 
+    // TODO: 5/12/20 handle uri...
     private String handleObject(Object object) {
         String urlPath = null;
         try {
             if (object != null) {
-                if (object instanceof String) {
-                    String s = (String) object;
-                    if (!s.contains("http"))
-                        urlPath = "file://" + s;
-                    else
-                        urlPath = s;
+                if (object instanceof String)
+                    urlPath = getStringPath((String) object);
 
-                } else if (object instanceof File) {
+                else if (object instanceof File) {
                     File file = (File) object;
                     urlPath = file.getPath();
 
-                } else if (object instanceof Media) {
-                    Media media = (Media) object;
-                    if (media.getType().equals(Media.TYPE_VIDEO))
-                        urlPath = YouTube_Thumb.concat(media.getPath().substring(media.getPath().indexOf("=") + 1)).concat("/0.jpg");
-                    else {
-                        if (!media.getPath().contains("http"))
-                            urlPath = "file://" + media.getPath();
-                        else
-                            urlPath = media.getPath();
-                    }
-                }
+                } else if (object instanceof Media)
+                    urlPath = getMediaPath((Media) object);
             } else
-                this.setImageResource(defaultImageRes);
+                this.setImageResource(getDefaultImageRes());
 
         } catch (NullPointerException ignored) {
-            this.setImageResource(defaultImageRes);
+            this.setImageResource(getDefaultImageRes());
         }
 
         return urlPath;
@@ -306,21 +278,8 @@ public class LeonImageView extends TouchImageView {
     }
 
 
-    protected void executePicasso(String urlPath, boolean fromFullScreen) {
-        Picasso.get().load(urlPath)
-                .placeholder(getPlaceHolderImageRes())
-                .error(getReloadImageRes())
-                .into(this, new PicassoCallback(this, urlPath, fromFullScreen));
-    }
-
-
     private void setMedia(String media) {
-        onImageClickListener.setMedia(media);
-    }
-
-
-    private void setMedia(List<String> mediaList, int currentPosition, String appLanguage) {
-        onImageClickListener.setMedia(mediaList, currentPosition, appLanguage);
+        onImageClickListener.setImage(media);
     }
 
 

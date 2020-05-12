@@ -14,8 +14,6 @@
     <style name="ViewPager">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
-        <item name="android:layoutDirection">locale</item>
-        <item name="android:textDirection">locale</item>
 
     </style>
 

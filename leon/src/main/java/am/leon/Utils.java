@@ -50,4 +50,20 @@ class Utils {
         return (int) (dp * ((float) metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT));
     }
 
+
+    static String getStringPath(String path) {
+        if (!path.contains("http") && !path.contains("file"))
+            return "file://" + path;
+        else
+            return path;
+    }
+
+
+    static String getMediaPath(Media media) {
+        if (media.getType().equals(Media.TYPE_VIDEO))
+            return YouTube_Thumb.concat(media.getPath().substring(media.getPath().indexOf("=") + 1)).concat("/0.jpg");
+        else
+            return getStringPath(media.getPath());
+    }
+
 }

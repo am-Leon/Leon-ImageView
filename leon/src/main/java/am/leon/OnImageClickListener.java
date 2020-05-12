@@ -1,9 +1,10 @@
 package am.leon;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.View;
 
-import java.util.ArrayList;
+import java.io.File;
 import java.util.List;
 
 import static am.leon.Utils.unwrap;
@@ -11,40 +12,85 @@ import static am.leon.Utils.unwrap;
 class OnImageClickListener implements View.OnClickListener, FullScreenPhotoFragment.FullScreenStatus {
 
     private View view;
-    private String media;
     private Context context;
-    private String appLanguage;
-    private int currentPosition;
-    private List<String> mediaList;
+    private LeonObject leonObject;
 
 
     OnImageClickListener(Context context) {
         this.context = context;
-        this.mediaList = new ArrayList<>();
+        this.leonObject = new LeonObject();
     }
 
 
-    void setMedia(String media) {
-        this.mediaList.clear();
-        this.media = media;
+    void setImage(Uri uri) {
+        leonObject.getUriList().clear();
+        leonObject.setImage(uri);
     }
 
 
-    void setMedia(List<String> mediaList, int currentPosition, String appLanguage) {
-        this.media = null;
-        this.mediaList = mediaList;
-        this.currentPosition = currentPosition;
-        this.appLanguage = appLanguage;
+    void setImage(Media media) {
+        leonObject.getMediaList().clear();
+        leonObject.setImage(media);
+    }
+
+
+    void setImage(File file) {
+        leonObject.getFileList().clear();
+        leonObject.setImage(file);
+    }
+
+
+    void setImage(String path) {
+        leonObject.getStringList().clear();
+        leonObject.setImage(path);
+    }
+
+
+    void setImage(int res) {
+        leonObject.getResList().clear();
+        leonObject.setImage(res);
+    }
+
+
+    void setUriImages(List<Uri> uriList, int currentPosition, String appLanguage) {
+        leonObject.setUriList(uriList);
+        leonObject.setCurrentPosition(currentPosition);
+        leonObject.setAppLanguage(appLanguage);
+    }
+
+
+    void setMediaImages(List<Media> mediaList, int currentPosition, String appLanguage) {
+        leonObject.setMediaList(mediaList);
+        leonObject.setCurrentPosition(currentPosition);
+        leonObject.setAppLanguage(appLanguage);
+    }
+
+
+    void setFileImages(List<File> fileList, int currentPosition, String appLanguage) {
+        leonObject.setFileList(fileList);
+        leonObject.setCurrentPosition(currentPosition);
+        leonObject.setAppLanguage(appLanguage);
+    }
+
+
+    void setStringImages(List<String> stringList, int currentPosition, String appLanguage) {
+        leonObject.setStringList(stringList);
+        leonObject.setCurrentPosition(currentPosition);
+        leonObject.setAppLanguage(appLanguage);
+    }
+
+
+    void setResImages(List<Integer> resList, int currentPosition, String appLanguage) {
+        leonObject.setResList(resList);
+        leonObject.setCurrentPosition(currentPosition);
+        leonObject.setAppLanguage(appLanguage);
     }
 
 
     @Override
     public void onClick(View view) {
         this.view = view;
-        if (media != null)
-            FullScreenPhotoFragment.getInstance(media, this).show(unwrap(context).getSupportFragmentManager(), getClass().getName());
-        else if (mediaList != null)
-            FullScreenPhotoFragment.getInstance(mediaList, currentPosition, appLanguage, this).show(unwrap(context).getSupportFragmentManager(), getClass().getName());
+        FullScreenPhotoFragment.getInstance(leonObject, this).show(unwrap(context).getSupportFragmentManager(), getClass().getName());
     }
 
 
@@ -55,4 +101,25 @@ class OnImageClickListener implements View.OnClickListener, FullScreenPhotoFragm
         else
             view.setEnabled(true);
     }
+
+
+    void setReloadImageRes(int reloadImageRes) {
+        leonObject.setReloadImageRes(reloadImageRes);
+    }
+
+
+    void setDefaultImageRes(int defaultImageRes) {
+        leonObject.setDefaultImageRes(defaultImageRes);
+    }
+
+
+    void setVideoPlayImageRes(int videoPlayImageRes) {
+        leonObject.setVideoPlayImageRes(videoPlayImageRes);
+    }
+
+
+    void setPlaceHolderImageRes(int placeHolderImageRes) {
+        leonObject.setPlaceHolderImageRes(placeHolderImageRes);
+    }
+
 }

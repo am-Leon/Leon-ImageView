@@ -76,6 +76,8 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHold
             item_image = itemView.findViewById(R.id.img_itemPhoto);
             item_image.setOnClickListener(this);
             itemView.setOnClickListener(this);
+
+//            item_image.setReloadImageRes(R.drawable.ic_delete_sweep_black_24dp);
         }
 
         @Override
