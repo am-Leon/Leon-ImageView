@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
-public class LeonMedia implements Parcelable {
+class LeonMedia implements Parcelable {
 
     enum LeonMediaType {URI, MEDIA, FILE, STRING, RESOURCE}
 
