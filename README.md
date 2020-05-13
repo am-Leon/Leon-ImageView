@@ -26,6 +26,7 @@ allprojects {
 
 ## Usage
 
+```text
 single image view
 set of images view in viewPager
 supporting (RTL,LTR) directions.
@@ -35,6 +36,8 @@ Picasso features (place holder,error icon)
 finger gesture swipe to destroy view of images in full screen.
 loadImages through 3 ways (stings,files,Media)
 load thumbnail view of youtube links and open video link on youtube app. using (media object)
+
+```
 
 
 In Xml file.
