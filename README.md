@@ -32,9 +32,9 @@ supporting (RTL,LTR) directions.
 many features for image view thanks for owner (animated zooming, zooming where it clicks,...)
 reloading image in case of failure
 Picasso features (place holder,error icon)
-finger guster swipe to destroy view of images in full screen.
-loadImages throgth 3 ways (stings,files,Media)
-load thubmnal view of youtube links and open video link on youtube app. using (media object)
+finger gesture swipe to destroy view of images in full screen.
+loadImages through 3 ways (stings,files,Media)
+load thumbnail view of youtube links and open video link on youtube app. using (media object)
 
 
 In Xml file.
