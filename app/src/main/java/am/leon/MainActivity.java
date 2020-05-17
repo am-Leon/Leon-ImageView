@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
         mediaList.add(new Media("https://brands.solutionplus.net/storage/photos/configs/blue-note-863135.jpeg", Media.TYPE_PHOTO));
         mediaList.add(new Media("https://brands.solutionplus.net/storage/photos/configs/blue-ocean-large-876999.jpeg", Media.TYPE_PHOTO));
-//        mediaList.add("https://brands.solutionplus.net/storage/photos/configs/blue-note-863135.jpeg");
+        mediaList.add(new Media("https://www.youtube.com/watch?v=kRT9nSMCdZk", Media.TYPE_VIDEO));
         mediaList.add(new Media("https://test.api.alber.solutionplus.net/storage/photos/photosgalleries/YmviZuMeKGTxwARnVXwu.jpeg", Media.TYPE_PHOTO));
         mediaList.add(new Media("https://test.api.alber.solutionplus.net/storage/photos/photosgalleries/T7K0cqyhaA1zvPkGT3dF.jpeg", Media.TYPE_PHOTO));
         mediaList.add(new Media("https://test.api.alber.solutionplus.net/storage/photos/photosgalleries/Qoc7BqC16ikTERvwnne8.jpg", Media.TYPE_PHOTO));

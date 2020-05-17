@@ -114,7 +114,7 @@ class FullScreenImageAdapter extends RecyclerView.Adapter<FullScreenImageAdapter
 
 
         private void handleMediaObject(Media media) {
-            if (media.getType().equals(Media.TYPE_VIDEO) && media.getPath().contains(Utils.YouTube_Thumb)) {
+            if (media.getType().equals(Media.TYPE_VIDEO)) {
                 ic_video.setVisibility(View.VISIBLE);
                 imageView.setOnClickListener(this);
             } else
@@ -174,7 +174,7 @@ class FullScreenImageAdapter extends RecyclerView.Adapter<FullScreenImageAdapter
             else {
                 if (leonMedia.getType().equals(LeonMedia.LeonMediaType.MEDIA)) {
                     Media media = (Media) leonMedia.getObject();
-                    if (media.getPath() != null && media.getPath().contains(Utils.YouTube_Thumb))
+                    if (media.getPath() != null)
                         Utils.youtubePlay(context, media.getPath().substring(media.getPath().indexOf("=") + 1));
                 }
             }
