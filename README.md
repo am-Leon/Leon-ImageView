@@ -1,6 +1,4 @@
-[![](https://jitpack.io/v/am-Leon/LeonImageView.svg)](https://jitpack.io/#am-Leon/LeonImageView)
-
-# LeonImageView
+# LeonImageView [![](https://jitpack.io/v/am-Leon/LeonImageView.svg)](https://jitpack.io/#am-Leon/LeonImageView)
 
 Leon is an android library written to makes it easy for the programmer to display a set of images in a simple way using Picasso.
 
