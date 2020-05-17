@@ -1,0 +1,1 @@
+-keep class am.leon.** { *; } #todo Should Change This Place In every Project
