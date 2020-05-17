@@ -21,32 +21,56 @@ class OnImageClickListener implements View.OnClickListener, FullScreenPhotoFragm
         this.leonObject = new LeonObject();
     }
 
+    void setImage(LeonMedia leonMedia) {
+        switch (leonMedia.getType()) {
+            case URI:
+                setImage((Uri) leonMedia.getObject());
+                break;
 
-    void setImage(Uri uri) {
+            case MEDIA:
+                setImage((Media) leonMedia.getObject());
+                break;
+
+            case FILE:
+                setImage((File) leonMedia.getObject());
+                break;
+
+            case STRING:
+                setImage((String) leonMedia.getObject());
+                break;
+
+            case RESOURCE:
+                setImage((Integer) leonMedia.getObject());
+                break;
+        }
+    }
+
+
+    private void setImage(Uri uri) {
         leonObject.getUriList().clear();
         leonObject.setImage(uri);
     }
 
 
-    void setImage(Media media) {
+    private void setImage(Media media) {
         leonObject.getMediaList().clear();
         leonObject.setImage(media);
     }
 
 
-    void setImage(File file) {
+    private void setImage(File file) {
         leonObject.getFileList().clear();
         leonObject.setImage(file);
     }
 
 
-    void setImage(String path) {
+    private void setImage(String path) {
         leonObject.getStringList().clear();
         leonObject.setImage(path);
     }
 
 
-    void setImage(int res) {
+    private void setImage(int res) {
         leonObject.getResList().clear();
         leonObject.setImage(res);
     }

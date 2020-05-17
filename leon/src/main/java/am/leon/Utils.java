@@ -15,7 +15,7 @@ import java.util.Locale;
 
 class Utils {
 
-    static final String YouTube_Thumb = "https://img.youtube.com/vi/";
+    private static final String YouTube_Thumb = "https://img.youtube.com/vi/";
 
     static void youtubePlay(Context context, String id) {
         Intent appIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + id));

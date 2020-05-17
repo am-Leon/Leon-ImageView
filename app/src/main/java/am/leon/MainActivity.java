@@ -53,4 +53,13 @@ public class MainActivity extends AppCompatActivity {
         return mediaList;
     }
 
+
+    private List<Integer> getIntegerList() {
+        List<Integer> integerList = new ArrayList<>();
+        integerList.add(R.drawable.ic_delete_sweep_black_24dp);
+        integerList.add(R.drawable.ic_directions_bike_black_24dp);
+
+        return integerList;
+    }
+
 }

@@ -13,7 +13,7 @@
 //import java.util.ArrayList;
 //import java.util.List;
 //
-//import am.leon.PicassoCallback;
+//import am.leon.old.PicassoCallback;
 //import am.leon.R;
 //import am.leon.Media;
 //import am.leon.done.OnImageClickListener;

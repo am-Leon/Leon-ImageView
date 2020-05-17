@@ -20,7 +20,7 @@ allprojects {
 
 ```groovy
 
-    implementation 'com.github.am-Leon:LeonImageView:v1.0.9'
+    implementation 'com.github.am-Leon:LeonImageView:v1.0.10'
 
 ```
 
@@ -79,8 +79,11 @@ public class MainActivity extends AppCompatActivity {
         File file = new File("your image file path");
         imageView.loadImage(file);
         
-        // for uri objects
+        // for uri object
         imageView.loadImage("uri object");
+   
+        // for resource object
+        imageView.loadImage(R.drawable.ic_directions_bike_black_24dp);
 
         // for media object supports photos url and youtube url videos only
         Media media = new Media("https://via.placeholder.com/250", Media.TYPE_PHOTO);
@@ -112,10 +115,11 @@ public class MainActivity extends AppCompatActivity {
 
         LeonImageView imageView = findViewById(R.id.img_itemPhoto);
         
-        // for any type used from (String, File, Uri, Media).
-        String path = "https://via.placeholder.com/150";
-        imageView.loadImage(path);
+        // for any type used from (String, File, Uri, Media, Drawable).
+        imageView.loadImage("any type listed");
      
+        //--------------------------------------Media List------------------------------------------
+        
         // after loading image use setOnClickListener  
         // to open full screen view and load images list
         imageView.loadMediaImages(getImagesList());
@@ -124,7 +128,19 @@ public class MainActivity extends AppCompatActivity {
         imageView.loadMediaImages(items, 2);
         
         // for Rtl direction set "ar" 
-        imageView.loadMediaImages(items, 2, "ar");
+        imageView.loadMediaImages(items, 2, "ar");  
+        
+        //--------------------------------------Drawables List--------------------------------------
+        
+        // after loading image use setOnClickListener  
+        // to open full screen view and load images list
+        imageView.loadResImages(getImagesList());
+        
+        // for opening images list with specific position set position
+        imageView.loadResImages(items, 2);
+        
+        // for Rtl direction set "ar" 
+        imageView.loadResImages(items, 2, "ar");
         
         // used for open full screen view.
         imageView.show();
@@ -145,6 +161,15 @@ public class MainActivity extends AppCompatActivity {
         return mediaList;
     }
 
+
+    private List<Integer> getIntegerList() {
+        List<Integer> integerList = new ArrayList<>();
+        integerList.add(R.drawable.ic_delete_sweep_black_24dp);
+        integerList.add(R.drawable.ic_directions_bike_black_24dp);
+
+        return integerList;
+    }
+    
 }
 
 

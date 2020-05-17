@@ -70,10 +70,9 @@ class FullScreenImageAdapter extends RecyclerView.Adapter<FullScreenImageAdapter
             imageView.setOnClickListener(null);
 
             imageView.setPlaceHolderImageRes(leonObject.getPlaceHolderImageRes());
-            imageView.setVideoPlayImageRes(leonObject.getVideoPlayImageRes());
             imageView.setDefaultImageRes(leonObject.getDefaultImageRes());
             imageView.setReloadImageRes(leonObject.getReloadImageRes());
-
+            ic_video.setImageResource(leonObject.getVideoPlayImageRes());
         }
 
 
@@ -117,6 +116,7 @@ class FullScreenImageAdapter extends RecyclerView.Adapter<FullScreenImageAdapter
             if (media.getType().equals(Media.TYPE_VIDEO)) {
                 ic_video.setVisibility(View.VISIBLE);
                 imageView.setOnClickListener(this);
+                imageView.setZoomEnabled(false);
             } else
                 ic_video.setVisibility(View.GONE);
         }

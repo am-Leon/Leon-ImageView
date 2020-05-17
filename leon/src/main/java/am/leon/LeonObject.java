@@ -49,30 +49,29 @@ class LeonObject implements Parcelable {
 
     List<LeonMedia> getLeonMedia() {
         List<LeonMedia> list = new ArrayList<>();
-        if (getUriList().size() != 0) {
-            for (Uri uri : getUriList()) {
-                list.add(new LeonMedia(uri, LeonMedia.LeonMediaType.URI));
-            }
+        try {
+            if (getUriList().size() != 0) {
+                for (Uri uri : getUriList())
+                    list.add(LeonMedia.getLeonMedia(uri));
 
-        } else if (getMediaList().size() != 0) {
-            for (Media media : getMediaList()) {
-                list.add(new LeonMedia(media, LeonMedia.LeonMediaType.MEDIA));
-            }
+            } else if (getMediaList().size() != 0) {
+                for (Media media : getMediaList())
+                    list.add(LeonMedia.getLeonMedia(media));
 
-        } else if (getFileList().size() != 0) {
-            for (File file : getFileList()) {
-                list.add(new LeonMedia(file, LeonMedia.LeonMediaType.FILE));
-            }
+            } else if (getFileList().size() != 0) {
+                for (File file : getFileList())
+                    list.add(LeonMedia.getLeonMedia(file));
 
-        } else if (getStringList().size() != 0) {
-            for (String path : getStringList()) {
-                list.add(new LeonMedia(path, LeonMedia.LeonMediaType.STRING));
-            }
+            } else if (getStringList().size() != 0) {
+                for (String path : getStringList())
+                    list.add(LeonMedia.getLeonMedia(path));
 
-        } else if (getResList().size() != 0) {
-            for (Integer res : getResList()) {
-                list.add(new LeonMedia(res, LeonMedia.LeonMediaType.RESOURCE));
+            } else if (getResList().size() != 0) {
+                for (Integer res : getResList())
+                    list.add(LeonMedia.getLeonMedia(res));
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return list;
     }

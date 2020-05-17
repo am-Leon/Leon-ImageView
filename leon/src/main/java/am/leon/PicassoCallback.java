@@ -7,20 +7,20 @@ import com.squareup.picasso.Transformation;
 
 public class PicassoCallback implements Callback, View.OnClickListener {
 
-    private String urlPath;
+    private LeonMedia leonMedia;
     private LeonImageView imageView;
     private Transformation transformation;
 
 
-    PicassoCallback(LeonImageView imageView, String urlPath) {
-        this(imageView, urlPath, null);
+    PicassoCallback(LeonImageView imageView, LeonMedia leonMedia) {
+        this(imageView, leonMedia, null);
     }
 
 
-    PicassoCallback(LeonImageView imageView, String urlPath, Transformation transformation) {
+    PicassoCallback(LeonImageView imageView, LeonMedia leonMedia, Transformation transformation) {
         this.transformation = transformation;
         this.imageView = imageView;
-        this.urlPath = urlPath;
+        this.leonMedia = leonMedia;
         viewInit();
     }
 
@@ -49,9 +49,9 @@ public class PicassoCallback implements Callback, View.OnClickListener {
     @Override
     public void onClick(View view) {
         if (transformation != null)
-            imageView.loadImage(urlPath, transformation);
+            imageView.loadImage(leonMedia.getObject(), transformation);
         else
-            imageView.loadImage(urlPath);
+            imageView.loadImage(leonMedia.getObject());
     }
 
 }

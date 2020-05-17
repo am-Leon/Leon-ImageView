@@ -1,9 +1,12 @@
 package am.leon;
 
+import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
+
+import java.io.File;
 
 class LeonMedia implements Parcelable {
 
@@ -12,13 +15,38 @@ class LeonMedia implements Parcelable {
     private Object object;
     private LeonMediaType type;
 
-    LeonMedia() {
+    private LeonMedia() {
     }
 
-    LeonMedia(Object object, LeonMediaType type) {
+    private LeonMedia(Object object, LeonMediaType type) {
         this.object = object;
         this.type = type;
     }
+
+
+    static LeonMedia getLeonMedia(Object o) throws Exception {
+        LeonMedia leonMedia = new LeonMedia();
+        if (o != null) {
+            if (o instanceof Uri)
+                leonMedia = new LeonMedia(o, LeonMedia.LeonMediaType.URI);
+
+            else if (o instanceof Media)
+                leonMedia = new LeonMedia(o, LeonMedia.LeonMediaType.MEDIA);
+
+            else if (o instanceof File)
+                leonMedia = new LeonMedia(o, LeonMedia.LeonMediaType.FILE);
+
+            else if (o instanceof String)
+                leonMedia = new LeonMedia(o, LeonMedia.LeonMediaType.STRING);
+
+            else if (o instanceof Integer)
+                leonMedia = new LeonMedia(o, LeonMedia.LeonMediaType.RESOURCE);
+
+            else throw new Exception("type not supported");
+        }
+        return leonMedia;
+    }
+
 
     private LeonMedia(Parcel in) {
     }

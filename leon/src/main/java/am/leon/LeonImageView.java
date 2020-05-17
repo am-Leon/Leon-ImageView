@@ -133,16 +133,25 @@ public class LeonImageView extends TouchImageView {
 
     //-----------------------------------------LeonImageMethods-------------------------------------
 
-    // TODO: 5/12/20 handle uri...
     public void loadImage(Object object) {
-        executePicasso(handleObject(object), null);
-        setMedia(handleObject(object));
+        try {
+            executePicasso(LeonMedia.getLeonMedia(object));
+            onImageClickListener.setImage(LeonMedia.getLeonMedia(object));
+        } catch (Exception e) {
+            this.setImageResource(getDefaultImageRes());
+            e.printStackTrace();
+        }
     }
 
-    // TODO: 5/12/20 handle uri...
+
     public void loadImage(Object object, Transformation transformation) {
-        executePicasso(handleObject(object), transformation);
-        setMedia(handleObject(object));
+        try {
+            executePicasso(LeonMedia.getLeonMedia(object), transformation);
+            onImageClickListener.setImage(LeonMedia.getLeonMedia(object));
+        } catch (Exception e) {
+            this.setImageResource(getDefaultImageRes());
+            e.printStackTrace();
+        }
     }
 
 
@@ -237,49 +246,85 @@ public class LeonImageView extends TouchImageView {
 
     //-----------------------------------------LeonImageMethods-------------------------------------
 
+    private void executePicasso(LeonMedia leonMedia) {
+        Picasso picasso = Picasso.get();
+        switch (leonMedia.getType()) {
+            case URI:
+                picasso.load((Uri) leonMedia.getObject())
+                        .placeholder(getPlaceHolderImageRes())
+                        .error(getReloadImageRes())
+                        .into(this, new PicassoCallback(this, leonMedia));
+                break;
 
-    // TODO: 5/12/20 handle uri...
-    private String handleObject(Object object) {
-        String urlPath = null;
-        try {
-            if (object != null) {
-                if (object instanceof String)
-                    urlPath = getStringPath((String) object);
+            case MEDIA:
+                picasso.load(getMediaPath((Media) leonMedia.getObject()))
+                        .placeholder(getPlaceHolderImageRes())
+                        .error(getReloadImageRes())
+                        .into(this, new PicassoCallback(this, leonMedia));
+                break;
 
-                else if (object instanceof File) {
-                    File file = (File) object;
-                    urlPath = file.getPath();
+            case FILE:
+                picasso.load((File) leonMedia.getObject())
+                        .placeholder(getPlaceHolderImageRes())
+                        .error(getReloadImageRes())
+                        .into(this, new PicassoCallback(this, leonMedia));
+                break;
 
-                } else if (object instanceof Media)
-                    urlPath = getMediaPath((Media) object);
-            } else
-                this.setImageResource(getDefaultImageRes());
+            case STRING:
+                picasso.load(getStringPath((String) leonMedia.getObject()))
+                        .placeholder(getPlaceHolderImageRes())
+                        .error(getReloadImageRes())
+                        .into(this, new PicassoCallback(this, leonMedia));
+                break;
 
-        } catch (NullPointerException ignored) {
-            this.setImageResource(getDefaultImageRes());
+            case RESOURCE:
+                setImageResource((Integer) leonMedia.getObject());
+                break;
         }
 
-        return urlPath;
     }
 
 
-    private void executePicasso(String urlPath, Transformation transformation) {
-        if (transformation != null)
-            Picasso.get().load(urlPath)
-                    .placeholder(getPlaceHolderImageRes())
-                    .error(getReloadImageRes())
-                    .transform(transformation)
-                    .into(this, new PicassoCallback(this, urlPath, transformation));
-        else
-            Picasso.get().load(urlPath)
-                    .placeholder(getPlaceHolderImageRes())
-                    .error(getReloadImageRes())
-                    .into(this, new PicassoCallback(this, urlPath));
-    }
+    private void executePicasso(LeonMedia leonMedia, Transformation transformation) {
+        Picasso picasso = Picasso.get();
+        switch (leonMedia.getType()) {
+            case URI:
+                picasso.load((Uri) leonMedia.getObject())
+                        .placeholder(getPlaceHolderImageRes())
+                        .error(getReloadImageRes())
+                        .transform(transformation)
+                        .into(this, new PicassoCallback(this, leonMedia, transformation));
+                break;
 
+            case MEDIA:
+                picasso.load(getMediaPath((Media) leonMedia.getObject()))
+                        .placeholder(getPlaceHolderImageRes())
+                        .error(getReloadImageRes())
+                        .transform(transformation)
+                        .into(this, new PicassoCallback(this, leonMedia, transformation));
+                break;
 
-    private void setMedia(String media) {
-        onImageClickListener.setImage(media);
+            case FILE:
+                picasso.load((File) leonMedia.getObject())
+                        .placeholder(getPlaceHolderImageRes())
+                        .error(getReloadImageRes())
+                        .transform(transformation)
+                        .into(this, new PicassoCallback(this, leonMedia, transformation));
+                break;
+
+            case STRING:
+                picasso.load(getStringPath((String) leonMedia.getObject()))
+                        .placeholder(getPlaceHolderImageRes())
+                        .error(getReloadImageRes())
+                        .transform(transformation)
+                        .into(this, new PicassoCallback(this, leonMedia, transformation));
+                break;
+
+            case RESOURCE:
+                setImageResource((Integer) leonMedia.getObject());
+                break;
+        }
+
     }
 
 
