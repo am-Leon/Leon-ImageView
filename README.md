@@ -34,7 +34,7 @@ many features for image view thanks for owner (animated zooming, zooming where i
 reloading image in case of failure
 Picasso features (place holder,error icon)
 finger gesture swipe to destroy view of images in full screen.
-loadImages through 3 ways (stings,files,Media)
+loadImages through 4 ways (stings, files, Media, Uri)
 load thumbnail view of youtube links and open video link on youtube app. using (media object)
 
 ```
