@@ -94,6 +94,13 @@ public class FullScreenPhotoFragment extends SwipeDialogFragment implements Full
 
 
     @Override
+    public void onCancel(@NonNull DialogInterface dialog) {
+        fullScreenStatus.fullScreenStatus(false);
+        super.onCancel(dialog);
+    }
+
+
+    @Override
     public void dismiss() {
         fullScreenStatus.fullScreenStatus(false);
         super.dismiss();
