@@ -20,7 +20,7 @@ allprojects {
 
 ```groovy
 
-    implementation 'com.github.am-Leon:LeonImageView:v1.1.1'
+    implementation 'com.github.am-Leon:LeonImageView:[![](https://jitpack.io/v/am-Leon/LeonImageView.svg)](https://jitpack.io/#am-Leon/LeonImageView)'
 
 ```
 
