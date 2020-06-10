@@ -25,6 +25,8 @@ allprojects {
 
 ```
 
+    implementation 'com.github.am-Leon:LeonImageView:[![](https://jitpack.io/#am-Leon/LeonImageView)'
+
 ## Usage
 
 ```text
