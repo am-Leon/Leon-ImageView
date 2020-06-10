@@ -39,7 +39,7 @@ load thumbnail view of youtube links and open video link on youtube app. using (
 
 ```
 
-![](demo.gif)
+![](demo.gif | height =200) 
 
 In Xml file.
 
