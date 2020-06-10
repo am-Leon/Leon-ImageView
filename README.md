@@ -19,10 +19,10 @@ allprojects {
 2- Add the dependency.
 
 ```groovy
-    implementation 'com.github.am-Leon:LeonImageView:'``` [![](https://jitpack.io/v/am-Leon/LeonImageView.svg)](https://jitpack.io/#am-Leon/LeonImageView)
     
-implementation 'com.github.am-Leon:LeonImageView:' [![](https://jitpack.io/v/am-Leon/LeonImageView.svg)](https://jitpack.io/#am-Leon/LeonImageView)
-
+    implementation 'com.github.am-Leon:LeonImageView:v1.1.1'
+    
+```
 
 
 ## Usage
