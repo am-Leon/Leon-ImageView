@@ -41,6 +41,8 @@ load thumbnail view of youtube links and open video link on youtube app. using (
 
 ![](demo.gif | height =200) 
 
+<img src="demo.gif" width="250" height="250"/>
+
 In Xml file.
 
 ```xml
