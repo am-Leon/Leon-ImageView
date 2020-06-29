@@ -94,11 +94,12 @@ class FullScreenImageAdapter extends RecyclerView.Adapter<FullScreenImageAdapter
                     break;
 
                 case FILE:
-                    try {
-                        executePicasso(((File) leonMedia.getObject()).getPath());
-                    } catch (Exception e) {
-                        executePicasso(((File) leonMedia.getObject()).getAbsolutePath());
-                    }
+                    executePicasso((File) leonMedia.getObject());
+//                    try {
+//                        executePicasso(((File) leonMedia.getObject()).getPath());
+//                    } catch (Exception e) {
+//                        executePicasso(((File) leonMedia.getObject()).getAbsolutePath());
+//                    }
                     break;
 
                 case STRING:
@@ -125,6 +126,15 @@ class FullScreenImageAdapter extends RecyclerView.Adapter<FullScreenImageAdapter
         private void executePicasso(Uri uri) {
             Picasso.get()
                     .load(uri)
+                    .placeholder(leonObject.getPlaceHolderImageRes())
+                    .error(leonObject.getReloadImageRes())
+                    .into(imageView, this);
+        }
+
+
+        private void executePicasso(File file) {
+            Picasso.get()
+                    .load(file)
                     .placeholder(leonObject.getPlaceHolderImageRes())
                     .error(leonObject.getReloadImageRes())
                     .into(imageView, this);

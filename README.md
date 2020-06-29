@@ -19,11 +19,10 @@ allprojects {
 2- Add the dependency.
 
 ```groovy
-    
-    implementation 'com.github.am-Leon:LeonImageView:v1.1.1'
-    
-```
 
+    implementation 'com.github.am-Leon:LeonImageView:v1.1.2'
+
+```
 
 ## Usage
 
@@ -50,10 +49,10 @@ In Xml file.
         android:id="@+id/img_itemPhoto"
         android:layout_width="match_parent"
         android:layout_height="168dp"
-        app:leon_default_icon="@drawable/ic_default"
-        app:leon_place_holder_icon="@drawable/"
-        app:leon_play_video_icon="@drawable/ic_default"
-        app:leon_reload_icon="@drawable/ic_default"
+        app:leon_default_icon=""
+        app:leon_place_holder_icon=""
+        app:leon_play_video_icon=""
+        app:leon_reload_icon=""
         tools:src="@tools:sample/avatars" />
 
 ```
