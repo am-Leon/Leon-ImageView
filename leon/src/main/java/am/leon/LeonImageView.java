@@ -57,6 +57,7 @@ public class LeonImageView extends TouchImageView {
 
         setPlaceHolderImageRes(typedArray.getResourceId(R.styleable.LeonImageView_leon_place_holder_icon, R.drawable.layer_place_holder));
         typedArray.recycle();
+
     }
 
 
