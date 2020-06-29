@@ -20,7 +20,7 @@ allprojects {
 
 ```groovy
 
-    implementation 'com.github.am-Leon:LeonImageView:v1.1.2'
+    implementation 'com.github.am-Leon:LeonImageView:v1.1.3'
 
 ```
 

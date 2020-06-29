@@ -98,7 +98,11 @@ class FullScreenImageAdapter extends RecyclerView.Adapter<FullScreenImageAdapter
                     break;
 
                 case STRING:
-                    executePicasso((String) leonMedia.getObject());
+                    String path = (String) leonMedia.getObject();
+                    if (path.contains("http"))
+                        executePicasso(path);
+                    else
+                        executePicasso("file://" + path);
                     break;
 
                 case RESOURCE:
