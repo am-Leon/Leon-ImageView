@@ -95,11 +95,6 @@ class FullScreenImageAdapter extends RecyclerView.Adapter<FullScreenImageAdapter
 
                 case FILE:
                     executePicasso((File) leonMedia.getObject());
-//                    try {
-//                        executePicasso(((File) leonMedia.getObject()).getPath());
-//                    } catch (Exception e) {
-//                        executePicasso(((File) leonMedia.getObject()).getAbsolutePath());
-//                    }
                     break;
 
                 case STRING:
