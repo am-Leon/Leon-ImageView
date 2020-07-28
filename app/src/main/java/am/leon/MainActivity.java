@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private List<Media> getImagesList() {
         List<Media> mediaList = new ArrayList<>();
 
+        mediaList.add(new Media("https://api.alber.solutionplus.net/storage/photos/services/qW2b0SVEUjrANbsreOyd.jpg", Media.TYPE_PHOTO));
         mediaList.add(new Media("https://brands.solutionplus.net/storage/photos/configs/blue-note-863135.jpeg", Media.TYPE_PHOTO));
         mediaList.add(new Media("https://brands.solutionplus.net/storage/photos/configs/blue-ocean-large-876999.jpeg", Media.TYPE_PHOTO));
         mediaList.add(new Media("https://www.youtube.com/watch?v=kRT9nSMCdZk", Media.TYPE_VIDEO));

@@ -1,1 +1,1 @@
--keep class am.leon.** { *; }
+-keep class am.leon.Media { *; }
