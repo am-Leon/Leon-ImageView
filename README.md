@@ -27,15 +27,15 @@ allprojects {
 ## Usage
 
 ```text
-single image view
-set of images view in viewPager
-supporting (RTL,LTR) directions.
-many features for image view thanks for owner (animated zooming, zooming where it clicks,...)
-reloading image in case of failure
-Picasso features (place holder,error icon)
-finger gesture swipe to destroy view of images in full screen.
-loadImages through 4 ways (stings, files, Media, Uri)
-load thumbnail view of youtube links and open video link on youtube app. using (media object)
+- Used for Represent Single image view.
+- set of images view in viewPager.
+- Supporting (LTR, RTL) Directions.
+- Images Features (Animated zooming, Zooming where it clicks,...)
+- Reloading image in case of failure.
+- Picasso features (place holder,error icon).
+- Finger gesture swipe to destroy view of images in full screen.
+- LoadImages through 4 ways (stings, files, Media, Uri).
+- Load thumbnail view of youtube links and open video link on youtube app. using (media object).
 
 ```
 
@@ -58,8 +58,8 @@ In Xml file.
 ```
 
 1- For Single image 
-   - in your activity leon can load different types(String, File, Uri, Media).
-   - when calling loadImage after, loading can click to open in full screen.
+    - in your activity leon can load different types(String, File, Uri, Media).
+    - when calling loadImage after, loading can click to open in full screen.
 
 ```java
 
@@ -98,7 +98,6 @@ public class MainActivity extends AppCompatActivity {
 }
 
 ```
-
 
 2- For set of images
     - in adapter viewHolder use image setOnClickListener
