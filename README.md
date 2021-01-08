@@ -134,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
         
         // after loading image use setOnClickListener  
         // to open full screen view and load images list
-        imageView.loadResImages(getImagesList());
+        imageView.loadResImages(getIntegerList());
         
         // for opening images list with specific position set position
         imageView.loadResImages(items, 2);
